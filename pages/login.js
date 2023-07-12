@@ -29,7 +29,7 @@ function Login(props) {
             <div className="flex">
                 <label className={`ml-2 text-sm font-medium cursor-pointer`} id='click_show_hide' >Show</label>
             </div>
-            <Link href="/userforgottenpassword"><span className="hover:underline dark:text-blue-500 text-red-800 cursor-pointer ">Forgotten Password?</span></Link>
+            <Link href="/userforgetpassword"><span className="hover:underline dark:text-blue-500 text-red-800 cursor-pointer ">Forgotten Password?</span></Link>
         </div>
       <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Login</button>
       <div className={`text-sm font-medium text-blue-700 mt py-2`}>

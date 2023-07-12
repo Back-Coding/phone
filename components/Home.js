@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import BackCodingImage from '../img/backcoding.png'
+import favicon_Backcoding from '../img/favicon-16x16.png'
 
 function Home(props) {
   return (
@@ -10,9 +11,8 @@ function Home(props) {
     <Head>
       <title>BackCoding | Home </title>
       <meta name="description" content="Online lerning platform is BackCoding" />
-     <link rel="icon" href="/img/favicon-16x16.png" type="image/icon" />
+      <link rel="icon" href={favicon_Backcoding}  type="image/icon"  />
      <link rel="icon" href="/img/favicon.ico" type="image/icon" />
-     {/* <link rel="icon" href="../img/logo.jpg" type="image/png" /> */}
     </Head>
     <main className="mx-20">
     <section className={`text-gray-${props.mode==='light'?900:100} body-font`}>
