@@ -23,9 +23,11 @@ const Slug = (props) => {
   </div>
   </>
 }
+
+//// The below line is comment a severside is dynamic changing frast moving service like news and media use
   export async function getServerSideProps(context) {
   const { slug } = context.query;
-  let data= await fetch(`http://localhost:3000/api/getblog?slug=${slug}`);
+  let data= await fetch(`http://localhost:3000/api/blogs/getblog?slug=${slug}`);
   // let data= fetch(`http://localhost:3000/api/getblog?slug=${slug}`);
   let myblog=await data.json()
   return {

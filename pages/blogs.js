@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -50,7 +50,8 @@ const Blogs = (props) => {
   )
 }
 export async function getServerSideProps(context) {
-  let data = await fetch('http://localhost:3000/api/blog')
+  // let data = await fetch('http://localhost:3000/api/blogs/blog')
+  let data = await fetch(`${process.env.DOMAIN}/api/blogs/blog`)
   let allBlogs = await data.json()
   return {
     props: { allBlogs }, // will be passed to the page component as props

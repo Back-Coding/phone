@@ -1,9 +1,15 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head';
-import { BiUserCircle } from 'react-icons/bi';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FaUserCog } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-{/* <BiUserCircle className='text-blue-300' /> */}
+
+
+// import { BiUserCircle } from 'react-icons/bi';
+// {/* <BiUserCircle className='text-blue-300' /> */}
 
 const drackIcon = <> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-7 h-7">
   <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fillRule="evenodd" clipRule="evenodd">
@@ -15,7 +21,19 @@ const lightIcon = <> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
 </>
 
 export default function NavBar(props) {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+const logout = () => {
+  localStorage.removeItem('token');
+  toast.success(" Logout succssfully ");
+  router.push('/login');
+}
+
   return (
    <>
    <Head>
@@ -35,14 +53,125 @@ export default function NavBar(props) {
     <Link  href="/contact"><a className={`mr-5 hover:text-blue-700 font-semibold text-xl focus:text-blue-400 }`} >Contact</a></Link>
     </nav>
     <div className="cursor-pointer mx-10 " onClick={props.toggleMode}>{props.mode === 'light' ? drackIcon : lightIcon} </div>
-    {/* this line Below comment code login page */}
-    <Link href="/login">
-    <button className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">Login
+    
+     <Link href="/login" >
+    <div className="inline-flex items-center cursor-pointer bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
+      Login
       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
         <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg>
-    </button>
-    </Link>
+    </div>
+  </Link>
+    {/* this line Below comment code login page */}
+    {/* { typeof window !== 'undefined' && !localStorage.getItem('token') ? <Link href="/login">
+    <div className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
+      Login
+    </div>
+  </Link>: <div className="relative inline-block text-left">
+     <div>
+         <FaUserCog onClick={toggleDropdown}  id="dropdown-button"
+         aria-expanded={isOpen ? 'true' : 'false'}
+          className='text-3xl text-blue-700 cursor-pointer' />
+     </div>
+     {isOpen &&
+       <div className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${props.mode === 'light' ? 100 : 900} ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button" tabIndex="-1`}>
+         <div className="py-1" role="none">
+           <div onClick={logout} className={`block px-4 py-2 cursor-pointer text-sm text-gray-${props.mode==='light'?900:100} hover:bg-gray-300 hover:text-gray-900`} role="menuitem" tabIndex="-1" id="dropdown-item-3">Loggout</div>
+         </div>
+       </div> }
+   </div >}
+    */}
+   {/* {typeof window !== 'undefined' && !localStorage.getItem('token') ? (
+  <Link href="/login" >
+    <div className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
+      Login
+  </div>
+  </Link>
+) : (
+  <div className="relative inline-block text-left">
+    <div>
+      <FaUserCog
+        onClick={toggleDropdown}
+        id="dropdown-button"
+        aria-expanded={isOpen ? 'true' : 'false'}
+        aria-haspopup="false"
+        className="text-3xl text-blue-700 cursor-pointer"
+      />
+    </div>
+    {isOpen && (
+      <div
+        className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${
+          props.mode === 'light' ? 100 : 900
+        } ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button" tabIndex="-1`}
+      >
+        <div className="py-1" role="none">
+          <div
+            onClick={logout}
+            className={`block px-4 py-2 cursor-pointer text-sm text-gray-${
+              props.mode === 'light' ? 900 : 100
+            } hover:bg-gray-300 hover:text-gray-900`}
+            role="menuitem"
+            tabIndex="-1"
+            id="dropdown-item-3"
+          >
+            Logout
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+)} */}
+
+
+{/*
+{typeof window !== 'undefined' && !localStorage.getItem('token') ? (
+  <Link href="/login">
+    <a className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
+      Login
+    </a>
+  </Link>
+) : (
+  <div className="relative inline-block text-left">
+    <div>
+      <FaUserCog
+        onClick={toggleDropdown}
+        id="dropdown-button"
+        aria-expanded={isOpen ? 'true' : 'false'}
+        className="text-3xl text-blue-700 cursor-pointer"
+      />
+    </div>
+    {isOpen && (
+      <div
+        className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${
+          props.mode === 'light' ? 100 : 900
+        } ring-1 ring-black ring-opacity-5 focus:outline-none`}
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="dropdown-button"
+        tabIndex="-1"
+      >
+        <div className="py-1" role="none">
+          <div
+            onClick={logout}
+            className={`block px-4 py-2 cursor-pointer text-sm text-gray-${
+              props.mode === 'light' ? 900 : 100
+            } hover:bg-gray-300 hover:text-gray-900`}
+            role="menuitem"
+            tabIndex="-1"
+            id="dropdown-item-3"
+          >
+            Logout
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
+          */}
+   
+   
+
   </div>
 </header>
    </>
