@@ -39,7 +39,10 @@ function Login(props) {
           if (response.ok) {
             // Handle successful login
             localStorage.setItem('token',json.authtoken);
-            toast.success('Logged successfully!');
+            localStorage.setItem('email',json.email);
+            localStorage.setItem('username',json.username);
+            
+            toast.success('Login successfully!');
             router.push('/');
           } else {
             // Handle login error
@@ -64,7 +67,7 @@ function Login(props) {
   <div className="container px-5 py-20   mx-auto flex flex-wrap items-center">
     <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
     <div className="rounded-lg h-96 overflow-hidden">
-        <img alt="content" className="object-cover object-center h-full w-full"   src={`${props.mode==='light'?'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80':'https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'}`}   />
+        <img alt="content" className="object-cover object-center h-full w-full"   src={`${props.mode==='light'?'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80':'https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'}`}   loading="lazy"/>
       </div>
     </div>
     <div className={`lg:w-2/6 md:w-1/2  rounded-lg shadow-xl ${props.mode==='light'?"shadow-blue-500/50":"shadow-indigo-500/50"} rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0`}>

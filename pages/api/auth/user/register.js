@@ -24,12 +24,12 @@ const handler = async (req, res) => {
       // Check if the user already exists
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ error: 'User with this email already exists' });
+        return res.status(400).json({ error: 'Invalid credentials' });
       }
       // Create a new user
       const salt = await bcrypt.genSalt(10);
       const secPass = await bcrypt.hash(password, salt);
-    let user = await User.create({
+    let user = await User({
         name: name,
         password: secPass,
         email:email,
@@ -39,9 +39,9 @@ const handler = async (req, res) => {
           id: user.id
         }
       }
+      await user.save();
       const authtoken = jwt.sign(data, process.env.JWT_SECRET);
       // const user = new User({ name, email, password:secPass });
-      await user.save();
       return res.status(200).json({authtoken});
     } catch (error) {
       console.log(error)

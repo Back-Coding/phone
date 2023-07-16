@@ -44,13 +44,16 @@ function Register(props) {
             });
             const json =await response.json();
             if (response.ok) {
-              // Handle successful login
-              // localStorage.setItem('token',json.authtoken);
+              // Handle successful register
               toast.success('Register  successfully!');
+              setName('');
+              setPassword('');
+              setConfirmPassword('');
               router.push('/login');
+
             } else {
               // Handle login error
-              toast.error('Login failed correct email and password!');
+              toast.error("User with this email already exist");
             }
           } catch (error) {
             console.error('An error occurred during login:', error);
@@ -73,7 +76,7 @@ function Register(props) {
   <div className="container px-5 py-4 mx-auto flex flex-wrap items-center">
   <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
     <div className="rounded-lg h-96 overflow-hidden">
-        <img alt="content" className="object-cover object-center h-full w-full" src={`${props.mode==='light'?'https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80':'https://images.unsplash.com/photo-1484807352052-23338990c6c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'}`} />
+        <img alt="content" className="object-cover object-center h-full w-full" src={`${props.mode==='light'?'https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80':'https://images.unsplash.com/photo-1484807352052-23338990c6c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'}`}  loading="lazy"/>
       </div>
     </div>
     <div className={`lg:w-2/6 md:w-1/2  rounded-lg shadow-xl ${props.mode==='light'?"shadow-blue-500/50":"shadow-indigo-500/50"} rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0`}>

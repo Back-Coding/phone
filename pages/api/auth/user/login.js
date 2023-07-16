@@ -23,12 +23,12 @@ const handler = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Please try to login with correct credentials" });
+      return res.status(400).json({ error: " Invalid credentials" });
     }
 
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({ success:false, error: "Please try to login with correct credentials" });
+      return res.status(400).json({ success:false, error: "Invalid credentials" });
     }
 
     const data = {
@@ -36,10 +36,9 @@ const handler = async (req, res) => {
         id: user.id
       }
     }
-    console.log(user.name)
     const authtoken = jwt.sign(data,process.env.JWT_SECRET);
-    
-    res.json({ authtoken })
+    let username=user.name;
+    res.json({ authtoken,username,email:user.email})
 
   } catch (error) {
     console.error(error.message);

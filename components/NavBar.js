@@ -23,16 +23,27 @@ const lightIcon = <> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
 export default function NavBar(props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const [user, setUser] = useState({ value: null,email:null,name:null });
+
+
 
 const logout = () => {
-  localStorage.removeItem('token');
+ 
+  setUser({value: null,email:null,name:null });
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
+  localStorage.removeItem('email')
   toast.success(" Logout succssfully ");
   router.push('/login');
 }
+useEffect(() => {
+  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
+  const token = localStorage.getItem("token");
+  if (token) {
+    setUser({ value: token ,email:email,name:username });
+  }
+}, [router.query]);
 
   return (
    <>
@@ -53,124 +64,28 @@ const logout = () => {
     <Link  href="/contact"><a className={`mr-5 hover:text-blue-700 font-semibold text-xl focus:text-blue-400 }`} >Contact</a></Link>
     </nav>
     <div className="cursor-pointer mx-10 " onClick={props.toggleMode}>{props.mode === 'light' ? drackIcon : lightIcon} </div>
-    
-     <Link href="/login" >
+    {/* this line Below comment code login page */}
+    {  !user.value  ? <Link href="/login" >
     <div className="inline-flex items-center cursor-pointer bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
       Login
       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
         <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg>
     </div>
-  </Link>
-    {/* this line Below comment code login page */}
-    {/* { typeof window !== 'undefined' && !localStorage.getItem('token') ? <Link href="/login">
-    <div className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
-      Login
-    </div>
-  </Link>: <div className="relative inline-block text-left">
-     <div>
-         <FaUserCog onClick={toggleDropdown}  id="dropdown-button"
-         aria-expanded={isOpen ? 'true' : 'false'}
+  </Link> :<div className="relative inline-block text-left">
+     <a  onMouseOver={()=>setIsOpen(true)} onMouseLeave={()=>setIsOpen(false)} >
+         <FaUserCog 
           className='text-3xl text-blue-700 cursor-pointer' />
+     {isOpen &&  <div onMouseOver={()=>setIsOpen(true)} onMouseLeave={()=>setIsOpen(false)} className={`absolute bg-gray-${props.mode==='light'?100:900}  right-4 px-5 w-46 top-5 rounded`}>
+      <ul>
+      <li className={`cursor-pointer py-1 flex hover:text-blue-600 overflow-hidden`}><div className='text-lg'>{user.name} <p className="text-sm">{user.email}</p></div></li>
+      <hr />
+      <li className={`cursor-pointer py-2 hover:text-blue-600 `}><button onClick={logout}> Loggout</button></li>
+      </ul>
+      </div>}
+     </a>
      </div>
-     {isOpen &&
-       <div className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${props.mode === 'light' ? 100 : 900} ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button" tabIndex="-1`}>
-         <div className="py-1" role="none">
-           <div onClick={logout} className={`block px-4 py-2 cursor-pointer text-sm text-gray-${props.mode==='light'?900:100} hover:bg-gray-300 hover:text-gray-900`} role="menuitem" tabIndex="-1" id="dropdown-item-3">Loggout</div>
-         </div>
-       </div> }
-   </div >}
-    */}
-   {/* {typeof window !== 'undefined' && !localStorage.getItem('token') ? (
-  <Link href="/login" >
-    <div className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
-      Login
-  </div>
-  </Link>
-) : (
-  <div className="relative inline-block text-left">
-    <div>
-      <FaUserCog
-        onClick={toggleDropdown}
-        id="dropdown-button"
-        aria-expanded={isOpen ? 'true' : 'false'}
-        aria-haspopup="false"
-        className="text-3xl text-blue-700 cursor-pointer"
-      />
-    </div>
-    {isOpen && (
-      <div
-        className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${
-          props.mode === 'light' ? 100 : 900
-        } ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button" tabIndex="-1`}
-      >
-        <div className="py-1" role="none">
-          <div
-            onClick={logout}
-            className={`block px-4 py-2 cursor-pointer text-sm text-gray-${
-              props.mode === 'light' ? 900 : 100
-            } hover:bg-gray-300 hover:text-gray-900`}
-            role="menuitem"
-            tabIndex="-1"
-            id="dropdown-item-3"
-          >
-            Logout
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-)} */}
-
-
-{/*
-{typeof window !== 'undefined' && !localStorage.getItem('token') ? (
-  <Link href="/login">
-    <a className="inline-flex items-center bg-blue-600 border-0 py-2 px-3 focus:outline-none hover:bg-blue-800 rounded text-base text-white mt-4 md:mt-0">
-      Login
-    </a>
-  </Link>
-) : (
-  <div className="relative inline-block text-left">
-    <div>
-      <FaUserCog
-        onClick={toggleDropdown}
-        id="dropdown-button"
-        aria-expanded={isOpen ? 'true' : 'false'}
-        className="text-3xl text-blue-700 cursor-pointer"
-      />
-    </div>
-    {isOpen && (
-      <div
-        className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-${
-          props.mode === 'light' ? 100 : 900
-        } ring-1 ring-black ring-opacity-5 focus:outline-none`}
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="dropdown-button"
-        tabIndex="-1"
-      >
-        <div className="py-1" role="none">
-          <div
-            onClick={logout}
-            className={`block px-4 py-2 cursor-pointer text-sm text-gray-${
-              props.mode === 'light' ? 900 : 100
-            } hover:bg-gray-300 hover:text-gray-900`}
-            role="menuitem"
-            tabIndex="-1"
-            id="dropdown-item-3"
-          >
-            Logout
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-)}
-
-          */}
-   
-   
+    }
 
   </div>
 </header>
