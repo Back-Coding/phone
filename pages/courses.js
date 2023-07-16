@@ -60,13 +60,50 @@ const courses = (props) => {
     </>
   )
 }
-export async function getServerSideProps(context) {
-  // let data = await fetch(`https://www.googleapis.com/youtube/v3/playlists`)
-  let data = await fetch(`${process.env.DOMAIN}/api/course/getcourse`)
+export async function getServerSideProps() {
+  const API_KEY = 'YOUR_YOUTUBE_API_KEY';
+  const channelId = 'YOUR_CHANNEL_ID';
+  const maxResults = 50;
 
-  let allcourse = await data.json()
-  return {
-    props: { allcourse }, // will be passed to the page component as props
+  try {
+    // Step 1: Get the playlist IDs associated with the channel
+    const channelResponse = await axios.get(
+      `https://www.googleapis.com/youtube/v3/playlists`,
+      {
+        params: {
+          part: 'id',
+          channelId,
+          key: API_KEY,
+          maxResults,
+        },
+      }
+    );
+
+    const playlistIds = channelResponse.data.items.map((item) => item.id);
+
+    // Step 2: Get the details of each playlist
+    const playlistDetailsResponse = await axios.get(
+      `https://www.googleapis.com/youtube/v3/playlists`,
+      {
+        params: {
+          part: 'snippet',
+          id: playlistIds.join(','),
+          key: API_KEY,
+          maxResults,
+        },
+      }
+    );
+
+    const playlists = playlistDetailsResponse.data.items;
+
+    return {
+      props: { playlists },
+    };
+  } catch (error) {
+    console.error('Error fetching playlists:', error);
+    return {
+      props: { playlists: [] },
+    };
   }
 }
 
